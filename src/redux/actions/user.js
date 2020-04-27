@@ -21,21 +21,23 @@ export const onClickLogin = (login) => {
 export const registerHandler = (userDataRegister) => {
     return (dispatc) => {
         const {
+            email,
             username,
             password,
             repassword,
             role,
             fullName,
         } = userDataRegister
-        let newUser = {username, password, role, fullName}
+        let newUser = {email, username, password, role, fullName}
         
         Axios.get(`${API_URL}/user`,{
             params: {
                 username,
+                email,
             }
         })
         .then((res) => {
-            if (username == 0 || password == 0 || repassword == 0 || role == 0 || fullName == 0){
+            if (email == 0 || username == 0 || password == 0 || repassword == 0 || role == 0 || fullName == 0){
                 swal("Data tidak lengkap, silahkan isi kembali")
             } else {
                 if (password == repassword) {
@@ -108,12 +110,12 @@ export const userKeepLogin = (userData) => {
             console.log(res)
             if (res.data.length > 0){
                 dispatc({
-                    type: "ON_LOGIN_SUCCESS",
+                    type: ON_LOGIN_SUCCES,
                     payload: res.data[0],
                 })
             } else {
                 dispatc({
-                    type: "ON_LOGIN_FAIL",
+                    type: ON_LOGIN_FAIL,
                     payload: "*Username atau Password salah!"
                 })
             }
@@ -126,10 +128,12 @@ export const userKeepLogin = (userData) => {
 export const logoutHandler = () =>{
     return(dispatch)=>{
         dispatch({
-            type:"ON_LOGOUT_SUCCESS",
+            type: ON_LOGOUT_SUCCESS,
             payload: {
                 id: 0,
+                email: "",
                 username: "",
+                password: "",
                 fullName: "",
                 role: "",
             }
