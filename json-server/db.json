@@ -3,6 +3,8 @@
         {
             "username": "seto",
             "password": "password",
+            "fullName": "kaseto",
+            "role": "user",
             "id": 1
         }
     ]

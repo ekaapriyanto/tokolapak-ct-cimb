@@ -112,13 +112,10 @@ class Navbar extends React.Component {
             <CircleBg>
               <small style={{ color: "#3C64B1", fontWeight: "bold" }}>4</small>
             </CircleBg> */}
-            <Link to="/login">
-              <ButtonUI className="mr-3" type="textual">
-                Logout
-              </ButtonUI>
-            </Link>
+            <Link to="/" type="text" onClick={this.logOut}>Logout</Link> &nbsp;
             <Link to={`/profile/${this.props.user.username}`} style={{ textDecoration: "none"}}>
-              {this.props.user.username} 
+              {this.props.user.username}
+              <img src={user1} width="30px" />
             </Link>
           </div>
         </div>

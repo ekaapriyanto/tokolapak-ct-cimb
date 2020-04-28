@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 
 import "./App.css";
+import './bootstrap.css';
 import "bootstrap/dist/css/bootstrap.css";
 
 import Home from "./views/screens/Home/Home";

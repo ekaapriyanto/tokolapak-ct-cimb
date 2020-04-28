@@ -21,23 +21,21 @@ export const onClickLogin = (login) => {
 export const registerHandler = (userDataRegister) => {
     return (dispatc) => {
         const {
-            email,
             username,
             password,
             repassword,
             role,
             fullName,
         } = userDataRegister
-        let newUser = {email, username, password, role, fullName}
+        let newUser = {username, password, role, fullName}
         
         Axios.get(`${API_URL}/user`,{
             params: {
                 username,
-                email,
             }
         })
         .then((res) => {
-            if (email == 0 || username == 0 || password == 0 || repassword == 0 || role == 0 || fullName == 0){
+            if (username == 0 || password == 0 || repassword == 0 || role == 0 || fullName == 0){
                 swal("Data tidak lengkap, silahkan isi kembali")
             } else {
                 if (password == repassword) {
