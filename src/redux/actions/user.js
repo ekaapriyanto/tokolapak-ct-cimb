@@ -18,83 +18,88 @@ export const onClickLogin = (login) => {
     };
 };
 
-export const registerHandler = (userDataRegister) => {
-    return (dispatc) => {
-        const {
-            username,
-            password,
-            repassword,
-            role,
-            fullName,
-        } = userDataRegister
-        let newUser = {username, password, role, fullName}
+// export const registerHandler = (userDataRegister) => {
+//     return (dispatc) => {
+//         const {
+//             username,
+//             password,
+//             repassword,
+//             role,
+//             fullName,
+//         } = userDataRegister
+//         let newUser = {username, password, role, fullName}
         
-        Axios.get(`${API_URL}/user`,{
-            params: {
-                username,
-            }
-        })
-        .then((res) => {
-            if (username == 0 || password == 0 || repassword == 0 || role == 0 || fullName == 0){
-                swal("Data tidak lengkap, silahkan isi kembali")
-            } else {
-                if (password == repassword) {
-                    if (res.data.length == 0) {
-                        Axios.post(`${API_URL}/user`, newUser)
-                        .then((res) => {
-                            swal("Akun anda telah terdaftar");
-                            dispatc({
-                                type: ON_LOGIN_SUCCES,
-                                payload: res.data
-                            })
-                            // this.setState({isLogin: true});
-                        })
-                        .catch((err) => {
-                            swal("Terjadi kesalahan pada server");
-                            // this.setState({isLoading: false});
-                        })
-                    } else {
-                        swal("Username: " + username + " sudah ada");
-                        // this.setState({isLoading: false});
-                    }
-                } else {
-                    swal("password tidak sama")
-                }
-            }
-        })
-        .catch((err) => {
-            console.log("Error", err)
-            // this.setState({isLoading: false})
-        })
-    }
-}
+//         Axios.get(`${API_URL}/user`,{
+//             params: {
+//                 username,
+//             }
+//         })
+//         .then((res) => {
+//             if (username == 0 || password == 0 || repassword == 0 || role == 0 || fullName == 0){
+//                 swal("Data tidak lengkap, silahkan isi kembali")
+//             } else {
+//                 if (password == repassword) {
+//                     if (res.data.length == 0) {
+//                         Axios.post(`${API_URL}/user`, newUser)
+//                         .then((res) => {
+//                             swal("Akun anda telah terdaftar");
+//                             dispatc({
+//                                 type: ON_LOGIN_SUCCES,
+//                                 payload: res.data
+//                             })
+//                             // this.setState({isLogin: true});
+//                         })
+//                         .catch((err) => {
+//                             swal("Terjadi kesalahan pada server");
+//                             // this.setState({isLoading: false});
+//                         })
+//                     } else {
+//                         swal("Username: " + username + " sudah ada");
+//                         // this.setState({isLoading: false});
+//                     }
+//                 } else {
+//                     swal("password tidak sama")
+//                 }
+//             }
+//         })
+//         .catch((err) => {
+//             console.log("Error", err)
+//             // this.setState({isLoading: false})
+//         })
+//     }
+// }
 
-export const loginHandler = (userData) => {
-    return (dispatc) => {
-        const { username, password } = userData
-        Axios.get(`${API_URL}/user`, {
-            params: {
-                username,
-                password,
-            }
-        })
-        .then((res) => {
-            if (res.data.length > 0){
-                dispatc({
-                    type: ON_LOGIN_SUCCES,
-                    payload: res.data[0],
-                })
-            } else {
-                dispatc({
-                    type: ON_LOGIN_FAIL,
-                    payload: "*Username atau Password salah!"
-                })
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    };
+export const registerHandler = (userData) => {
+  return (dispatch) => {
+    Axios.get(`${API_URL}/users`, {
+      params: {
+        username: userData.username,
+      },
+    })
+      .then((res) => {
+        if (res.data.length > 0) {
+          dispatch({
+            type: "ON_REGISTER_FAIL",
+            payload: "Username sudah digunakan",
+          });
+        } else {
+          Axios.post(`${API_URL}/users`, userData)
+            .then((res) => {
+              console.log(res.data);
+              dispatch({
+                type: ON_LOGIN_SUCCESS,
+                payload: res.data,
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 };
 
 export const userKeepLogin = (userData) => {

@@ -9,6 +9,11 @@ class AuthScreen extends React.Component {
         activePage: "register",
         form: {},
     }
+
+    renderAuthComponent = () => {
+        const {activePage} = this.state;
+        
+    }
     render() {
         return(
             <div className="container">
