@@ -27,9 +27,10 @@ class TextField extends React.Component<TextFieldProps> {
   render() {
     return (
       <input
+        value={this.props.value}
         onChange={this.props.onChange}
         placeholder={this.props.placeholder}
-        type="text"
+        type={this.props.type || "text"}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         className={`custom-text-input ${
