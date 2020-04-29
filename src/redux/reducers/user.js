@@ -9,6 +9,7 @@ const init_state = {
   address: {},
   role: "",
   errMsg: "",
+  cookiesChecked: false,
 };
 
 export default (state = init_state, action) => {
@@ -21,14 +22,15 @@ export default (state = init_state, action) => {
         fullName,
         role,
         id,
+        cookiesChecked: true
       };
     case ON_LOGIN_FAIL:
-      return { ...state, errMsg: action.payload };
+      return { ...state, errMsg: action.payload, cookiesChecked: true };
     case "ON_REGISTER_FAIL":
-      return { ...state, errMsg: action.payload };
+      return { ...state, errMsg: action.payload, cookiesChecked: true };
     case ON_LOGOUT_SUCCESS:
-      return { ...init_state };
+      return { ...init_state, cookiesChecked: true };
     default:
-      return { ...state };
+      return { ...state};
   }
 };

@@ -39,7 +39,7 @@ class Navbar extends React.Component {
   };
 
   render() {
-    if(!this.props.user.id){
+    
     return (
       <div className="d-flex flex-row justify-content-between align-items-center py-4 navbar-container" style={{backgroundColor:"white"}}>
         <div className="logo-text">
@@ -59,71 +59,44 @@ class Navbar extends React.Component {
           />
         </div>
         <div className="d-flex flex-row align-items-center">
-          {/* <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
-          <p className="small ml-3 mr-4">Profile</p>
-          <FontAwesomeIcon
-            className="mr-2"
-            icon={faShoppingCart}
-            style={{ fontSize: 24 }}
-          />
-          <CircleBg>
-            <small style={{ color: "#3C64B1", fontWeight: "bold" }}>4</small>
-          </CircleBg> */}
-          <Link to="/auth" style={{ textDecoration: "none"}}>
-            <ButtonUI className="mr-3" type="textual">
-              Sign in
-            </ButtonUI>
-          </Link>
-          <Link to="/auth" style={{ textDecoration: "none"}}>
-            <ButtonUI type="contained">Sign up</ButtonUI>
-          </Link>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="d-flex flex-row justify-content-between align-items-center py-4 navbar-container" style={{backgroundColor:"white"}}>
-        <div className="logo-text">
-          <Link style={{ textDecoration: "none", color: "inherit" }} to="/">
-            <img src={Logo} width="150px"/>
-          </Link>
-        </div>
-        <div style={{ flex: 1 }} className="px-5">
-          <input
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            className={`search-bar ${
-              this.state.searchBarIsFocused ? "active" : null
-            }`}
-            type="text"
-            placeholder="Cari produk impianmu disini"
-          />
-        </div>
-        <div className="d-flex flex-row align-items-center">
-          {/* <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
-          <p className="small ml-3 mr-4">Profile</p>
-          <FontAwesomeIcon
-            className="mr-2"
-            icon={faShoppingCart}
-            style={{ fontSize: 24 }}
-          />
-          <CircleBg>
-            <small style={{ color: "#3C64B1", fontWeight: "bold" }}>4</small>
-          </CircleBg> */}
-          <Link to="/" style={{ textDecoration: "none"}}>
-            <ButtonUI className="mr-3" type="textual" onClick={this.logOut}>
-              Logout
-            </ButtonUI>
-          </Link>
-          <ButtonUI className="mr-3" type="textual" onClick={this.logOut}>
-            {this.props.user.username} <img src={Profil} width="50px"/>
-          </ButtonUI>
+          {
+            this.props.user.id ? (
+              <>
+              <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
+                <p className="small ml-3 mr-4">{this.props.user.username}</p>
+              <FontAwesomeIcon
+                className="mr-2"
+                icon={faShoppingCart}
+                style={{ fontSize: 24 }}
+              />
+              <CircleBg>
+                <small style={{ color: "#3C64B1", fontWeight: "bold" }}>4</small>
+              </CircleBg>
+              <Link to="/" style={{ textDecoration: "none"}}>
+                <ButtonUI className="ml-3" type="textual" onClick={this.logOut}>
+                  Logout
+                </ButtonUI>
+              </Link>
+              </>
+            ) : (
+              <>
+              <Link to="/auth" style={{ textDecoration: "none"}}>
+                <ButtonUI className="mr-3" type="textual">
+                  Sign in
+                </ButtonUI>
+              </Link>
+              <Link to="/auth" style={{ textDecoration: "none"}}>
+                <ButtonUI type="contained">Sign up</ButtonUI>
+              </Link>
+              </>
+            )
+          }
         </div>
       </div>
     );
   }
 }
-}
+
 
 const mapStateToProps = (state) => {
   return {
