@@ -11,7 +11,7 @@ import Navbar from "./views/components/Navbar/Navbar";
 import AuthScreen from "./views/screens/Auth/AuthScreen";
 import ProductDetails from "./views/screens/ProductDetails/ProductDetails";
 import { userKeepLogin, cookieChecker } from "./redux/actions";
-import Cart from "./views/screens/cart/cart";
+import Cart from "./views/screens/cart/Cart";
 
 const cookieObj = new Cookie();
 
@@ -23,7 +23,7 @@ class App extends React.Component {
         this.props.keepLogin(cookieResult);
       }
       this.props.cookieChecker();
-    }, 2000);
+    }, 1000);
   }
 
   render() {
