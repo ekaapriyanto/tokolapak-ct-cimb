@@ -1,15 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons/";
 
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 
 import "./Navbar.css";
-import { Link } from "react-router-dom";
 import ButtonUI from "../Button/Button.tsx";
 import Profil from "../../../assets/images/user1.png"
 import Logo from "../../../assets/images/LogoBrand.png";
-import { connect } from "react-redux"
 import {logoutHandler} from "../../../redux/actions"
 import Cookie from "universal-cookie"
 
