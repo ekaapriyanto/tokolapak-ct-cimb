@@ -64,28 +64,54 @@ class Navbar extends React.Component {
             this.props.user.id ? (
               <>
               <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
-                <p className="small ml-3 mr-4">{this.props.user.username}</p>
-              <FontAwesomeIcon
-                className="mr-2"
-                icon={faShoppingCart}
-                style={{ fontSize: 24 }}
-              />
-              <CircleBg>
-                <small style={{ color: "#3C64B1", fontWeight: "bold" }}>4</small>
-              </CircleBg>
-              <Link to="/" style={{ textDecoration: "none"}}>
-                <ButtonUI className="ml-3" type="textual" onClick={this.logOut}>
-                  Logout
-                </ButtonUI>
-              </Link>
-              </>
-            ) : (
-              <>
-              <Link to="/auth" style={{ textDecoration: "none"}}>
-                <ButtonUI className="mr-3" type="textual">
+              <p className="small ml-3 mr-4">{this.props.user.username}</p>
+              {
+                this.props.user.role === "admin" ? (
+                  <>
+                  <Link to="/admin/dashboard" style={{ textDecoration: "none"}}>
+                    <ButtonUI type="textual">Dasboard</ButtonUI>
+                  </Link>
+                  <Link to="/" style={{ textDecoration: "none"}}>
+                    <ButtonUI className="ml-4" type="textual" onClick={this.logOut}>
+                      Logout
+                    </ButtonUI>
+                  </Link>
+                  </>
+                ) : (
+                  <>
+                  <Link
+                    className="d-flex flex-row"
+                    to="/cart"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <FontAwesomeIcon
+                      className="mr-2"
+                      icon={faShoppingCart}
+                      style={{ fontSize: 24 }}
+                    />
+                    <CircleBg>
+                      <small style={{ color: "#3C64B1", fontWeight: "bold" }}>
+                        4
+                      </small>
+                    </CircleBg>
+                  </Link>
+                  <Link to="/" style={{ textDecoration: "none"}}>
+                    <ButtonUI className="ml-3" type="textual" onClick={this.logOut}>
+                      Logout
+                    </ButtonUI>
+                  </Link>
+                  </>
+                )
+              }
+              
+            </>
+          ) : (
+            <>
+              <ButtonUI className="mr-3" type="textual">
+                <Link style={{ textDecoration: "none", color: "inherit" }} to="/auth">
                   Sign in
-                </ButtonUI>
-              </Link>
+                </Link>
+              </ButtonUI>
               <Link to="/auth" style={{ textDecoration: "none"}}>
                 <ButtonUI type="contained">Sign up</ButtonUI>
               </Link>

@@ -18,30 +18,31 @@ class ProdactDetails extends React.Component {
         }
     }
 
-    addToCartHandler = () => {
-        Axios.post(`${API_URL}/cart`, {
-            userId: this.props.user.id,
-            productId: this.state.productData.id,
-            quantity: 1,
-        })
-        .then((res) => {
-            console.log(res)
-            swal("add to cart, succes")
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
+  addToCartHandler = () => {
+    console.log(this.state.productData.id);
+    Axios.post(`${API_URL}/carts`, {
+      userId: this.props.user.id,
+      productId: this.state.productData.id,
+      quantity: 1,
+    })
+      .then((res) => {
+        console.log(res);
+        swal("Add to cart", "Your item has been added to your cart", "success");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-    componentDidMount () {
-        Axios.get(`${API_URL}/products/${this.props.match.params.productId}`)
-        .then((res) => {
-            this.setState({productData: res.data})
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
+  componentDidMount() {
+    Axios.get(`${API_URL}/products/${this.props.match.params.productId}`)
+      .then((res) => {
+        this.setState({ productData: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
     render() {
         const {productName, image, price, desc, category, id} =this.state.productData
@@ -60,7 +61,6 @@ class ProdactDetails extends React.Component {
                         <h4>
                             {
                                 new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(price)
-
                             }
                         </h4>
                         <p className="mt-4">{desc}</p>

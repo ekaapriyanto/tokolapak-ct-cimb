@@ -36,6 +36,14 @@
       "email": "eka.priyant25@gmail.com",
       "role": "admin",
       "id": 5
+    },
+    {
+      "username": "eka",
+      "fullName": "eka apriyanto",
+      "password": "123",
+      "email": "eka@gmail.com",
+      "role": "user",
+      "id": 6
     }
   ],
   "products": [
@@ -68,8 +76,16 @@
       "price": 20000000,
       "category": "Phone",
       "image": "https://ibox.co.id/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/i/p/iphone-11-pro-max-midnight-green_3.png",
-      "desc": "HP terbaik",
+      "desc": "HP terbaik cuy",
       "id": 4
+    },
+    {
+      "productName": "IPhone Xs",
+      "price": "10500000",
+      "category": "Phone",
+      "image": "https://ibox.co.id/media/wysiwyg/iPhone/iPhoneXS/iphone-xs-bg2_25-min.png",
+      "desc": "HP Mantul",
+      "id": 5
     }
   ],
   "carts": [
