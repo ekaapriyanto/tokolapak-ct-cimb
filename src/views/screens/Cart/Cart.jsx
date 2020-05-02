@@ -152,7 +152,7 @@ class Cart extends React.Component {
               </tr>
             </thead>
             <tbody>{this.renderCartData()}</tbody>
-            <div className="text-center">
+            <div className="container">
               <ButtonUI onClick={this.cartTransaction}>Transaction</ButtonUI>
               {
                 (!this.state.transactionCondtion) ? (null)
