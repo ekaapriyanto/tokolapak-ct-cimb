@@ -102,6 +102,13 @@ export const registerHandler = (userData) => {
   };
 };
 
+export const onChangeTodo = (text) => {
+  return {
+    type: "ON_CHANGE_TEXT",
+    payload: text,
+  }
+}
+
 export const cookieChecker = () => {
   return {
     type: "COOKIE_CHECK",

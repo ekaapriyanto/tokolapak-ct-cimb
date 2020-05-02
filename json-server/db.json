@@ -73,7 +73,7 @@
     },
     {
       "productName": "IPhone 11",
-      "price": 20000000,
+      "price": "200000",
       "category": "Phone",
       "image": "https://ibox.co.id/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/i/p/iphone-11-pro-max-midnight-green_3.png",
       "desc": "HP terbaik cuy",
@@ -97,15 +97,9 @@
     },
     {
       "userId": 4,
-      "productId": 2,
-      "quantity": 1,
-      "id": 2
-    },
-    {
-      "userId": 4,
       "productId": 1,
-      "quantity": 1,
-      "id": 3
+      "quantity": 2,
+      "id": 2
     }
   ],
   "transaction": [
