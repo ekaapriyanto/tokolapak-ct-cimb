@@ -15,6 +15,7 @@ import { Table, Alert } from "reactstrap";
 class Cart extends React.Component {
   state = {
     cartData: [],
+    checkOutData: [],
     transactionCondtion: false,
     totalPrice: 0
   };
@@ -103,32 +104,38 @@ class Cart extends React.Component {
   }
 
   transactionConfirm = () => {
-    const { totalPrice, cartData} = this.state
-    const dataTransaction = {
-      userId: this.props.user.id,
-      totalPrice,
-      status: "pending",
-      items: cartData.map((val) => {
-        return {...val.product, quantity: val.quantity}
-      })
-    }
-    Axios.post(`${API_URL}/transactions`,  dataTransaction )
+    Axios.get(`${API_URL}/carts`, {
+      params: {
+        userId: this.props.user.id,
+        _expand: "product"
+      }
+    })
     .then((res) => {
-      this.state.cartData.map((val) => {
+      console.log(res.data)
+      res.data.map((val) => {
+        this.setState({ checkOutData: [...this.state.checkOutData, val.product]})
         Axios.delete(`${API_URL}/carts/${val.id}`)
         .then((res) => {
           console.log(res)
-          swal("Transaction Success!")
-          this.getCartData()
         })
         .catch((err) => {
           console.log(err)
         })
       })
+      Axios.post(`${API_URL}/transaction`, {
+        userId: this.props.user.id,
+        totalPrice: this.state.totalPrice,
+        status: "pending",
+        items: this.state.checkOutData,
+      })
+      .then((res) => {
+        console.log(res.data)
+        swal("Success!", "Silahkan ke menu payment untuk membayar")
+        this.setState({ cartData: ''})
+      })
     })
     .catch((err) => {
       console.log(err)
-      swal("error")
     })
   }
 
@@ -158,6 +165,7 @@ class Cart extends React.Component {
                 (!this.state.transactionCondtion) ? (null)
                 : (
                   <>
+                  <div className="container py-4">
                   <h3>Total belanjaan</h3>
                   <Table className="mt-10">
                         <thead>
@@ -173,10 +181,16 @@ class Cart extends React.Component {
                         <tbody>
                           {this.renderTransaction()}
                         </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colSpan="5">total belanjaan anda</td>
+                            <td colSpan="1">{this.state.totalPrice}</td>
+                          </tr>
+                        </tfoot>
                   </Table>
+                  </div>
                   <div className="d-flex flex-column">
                   <center>
-                    <h4 className="mb-4">Total Belanja Anda Adalah: {this.state.totalPrice}</h4>
                     <ButtonUI onClick={this.transactionConfirm} type="outlined">Confirm</ButtonUI>
                   </center>
                 </div>
