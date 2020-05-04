@@ -52,6 +52,7 @@ class App extends React.Component {
             <Route exact path="/product/:productId" component={ProductDetails}/>
             <Route exact path="/cart" component={Cart} />
             {this.renderAdminRoutes()}
+            {/* <Route path="*" component={} /> */}
           </Switch>
           <div style={{ height: "120px" }} />
         </>

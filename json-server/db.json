@@ -97,8 +97,8 @@
     },
     {
       "userId": 4,
-      "productId": 1,
-      "quantity": 2,
+      "productId": 3,
+      "quantity": 1,
       "id": 2
     }
   ],
@@ -118,6 +118,22 @@
         }
       ],
       "id": 1
+    },
+    {
+      "userId": 4,
+      "totalPrice": 10000000,
+      "status": "pending",
+      "items": [
+        {
+          "productName": "iPhone 7 Plus",
+          "price": 5000000,
+          "category": "Phone",
+          "image": "https://ibox.co.id/media/wysiwyg/PromoOnline/web-banner---iphone-7-plus-rev.png",
+          "desc": "HP Terbaikk loh",
+          "id": 1
+        }
+      ],
+      "id": 2
     }
   ]
 }

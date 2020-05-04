@@ -4,6 +4,12 @@ import { connect } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons/";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  DropdownMenu,
+} from "reactstrap";
 
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 
@@ -14,8 +20,8 @@ import Logo from "../../../assets/images/LogoBrand.png";
 import {logoutHandler} from "../../../redux/actions";
 import { onChangeTodo } from "../../../redux/actions";
 import Cookie from "universal-cookie"
-import { Dropdown } from "reactstrap";
-// import { Dropdown, DropdownItem, DropdownToggle, DropdownMenu } from "reactstrap"
+import Axios from "axios";
+import { API_URL } from "../../../constants/API";
 
 const cookiesObject = new Cookie()
 
@@ -27,13 +33,15 @@ class Navbar extends React.Component {
   state = {
     searchBarIsFocused: false,
     searcBarInput: "",
-    // dropDownOpen: false,
+    dropdownOpen: false,
+    cartData: [],
+    totalQty: 0,
   };
 
   logOut = () => {
     this.props.logoutHandler()
     cookiesObject.remove("authData")
-}
+  }
 
   onFocus = () => {
     this.setState({ searchBarIsFocused: true });
@@ -42,9 +50,40 @@ class Navbar extends React.Component {
   onBlur = () => {
     this.setState({ searchBarIsFocused: false });
   };
-  // toggleDropdown = () => {
-  //   this.setState({ dropdownOpen: !this.state.dropdownOpen});
-  // }
+
+  logoutBtnHandler = () => {
+    this.props.onLogout();
+    // this.forceUpdate();
+  };
+
+  toggleDropdown = () => {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen });
+  };
+
+  cartQty = () => {
+    let qty = 0
+    Axios.get(`${API_URL}/carts`, {
+      params: {
+        userId: this.props.user.id,
+        _expand: "product",
+      }
+    })
+    .then((res) => {
+      console.log(res)
+      this.setState({ cartData: res.data });
+      this.state.cartData.map((val) => {
+        qty += val.quantity
+      })
+      this.setState({totalQty: qty})
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
+  componentDidMount(){
+    this.cartQty();
+  }
 
   render() {
     
@@ -55,7 +94,10 @@ class Navbar extends React.Component {
             <img src={Logo} width="150px"/>
           </Link>
         </div>
-        <div style={{ flex: 1 }} className="px-5">
+        <div
+          style={{ flex: 1 }}
+          className="px-5 d-flex flex-row justify-content-start"
+        >
           <input
             onFocus={this.onFocus}
             onBlur={this.onBlur}
@@ -69,44 +111,35 @@ class Navbar extends React.Component {
         </div>
         <div className="d-flex flex-row align-items-center">
           {
-            this.props.user.id ? (
-              <>
-              {/* <Dropdown
-              toggle={this.toggleDropDown}
-              isOpen={this.state.dropDownOpen} */}
-              {/* <DropdownToggle tag="div" className="d-flex">
-                <FontAwesomeIcon icon={faUser} style={{fontSize: 20}}/>
+          this.props.user.id ? (
+            <>
+              <Dropdown
+                toggle={this.toggleDropdown}
+                isOpen={this.state.dropdownOpen}
+              >
+                <DropdownToggle tag="div" className="d-flex">
+                  <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
                   <p className="small ml-3 mr-4">{this.props.user.username}</p>
-              </DropdownToggle>
-              <DropdownMenu className="mt-2">
-                <DropdownItem>
-                  <Link to="/admin/dashboard" style={{ textDecoration: "none"}}>
-                    <ButtonUI type="textual">Dasboard</ButtonUI>
-                  </Link>
-                </DropdownItem>
-                <DropdownItem>
-                  <Link to="/" style={{ textDecoration: "none"}}>
-                    <ButtonUI className="ml-4" type="textual" onClick={this.logOut}>
-                      Logout
-                    </ButtonUI>
-                  </Link>
-                </DropdownItem>
-              </DropdownMenu> */}
-              {/* </Dropdown> */}
-              
-              <FontAwesomeIcon icon={faUser} style={{ fontSize: 24 }} />
-              <p className="small ml-3 mr-4">{this.props.user.username}</p>
+                </DropdownToggle>
+                <DropdownMenu className="mt-2">
+                  <DropdownItem>
+                    <Link
+                      style={{ color: "inherit", textDecoration: "none" }}
+                      to="/admin/dashboard"
+                    >
+                      Dashboard
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem>Members</DropdownItem>
+                  <DropdownItem>Payments</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
               {
                 this.props.user.role === "admin" ? (
                   <>
-                  <Link to="/admin/dashboard" style={{ textDecoration: "none"}}>
-                    <ButtonUI type="textual">Dasboard</ButtonUI>
-                  </Link>
-                  <Link to="/" style={{ textDecoration: "none"}}>
-                    <ButtonUI className="ml-4" type="textual" onClick={this.logOut}>
-                      Logout
-                    </ButtonUI>
-                  </Link>
+                  <ButtonUI type="ml-4" type="textual" onClick={this.logoutBtnHandler}>
+                    <Link to="/auth">Logout</Link>
+                  </ButtonUI>
                   </>
                 ) : (
                   <>
@@ -122,20 +155,21 @@ class Navbar extends React.Component {
                     />
                     <CircleBg>
                       <small style={{ color: "#3C64B1", fontWeight: "bold" }}>
-                        4
+                        {this.state.totalQty}
                       </small>
                     </CircleBg>
                   </Link>
-                  <Link to="/" style={{ textDecoration: "none"}}>
-                    <ButtonUI className="ml-3" type="textual" onClick={this.logOut}>
-                      Logout
-                    </ButtonUI>
-                  </Link>
+                  <ButtonUI
+                    onClick={this.logoutBtnHandler}
+                    className="ml-3"
+                    type="textual"
+                  >
+                    Logout
+                  </ButtonUI>
                   </>
                 )
               }
-              
-            </>
+              </>
           ) : (
             <>
               <ButtonUI className="mr-3" type="textual">
@@ -162,8 +196,8 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = {
-  logoutHandler,
+  onLogout: logoutHandler,
   onChangeTodo,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
