@@ -105,7 +105,7 @@ class Cart extends React.Component {
           <td>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(price)}</td>
           <td>{quantity}</td>
           <td><img src={image} width="30"/></td>
-          <td>{quantity * price}</td>
+          <td>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(quantity * price)}</td>
         </tr>
       )
     })
@@ -233,7 +233,7 @@ class Cart extends React.Component {
                   </tr>
                   <tr>
                     <td colSpan="5">total belanjaan anda</td>
-                    <td className="text-center" colSpan="1">{this.state.totalPrice + +this.state.pengiriman}</td>
+                    <td className="text-center" colSpan="1">{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(this.state.totalPrice + +this.state.pengiriman)}</td>
                   </tr>
                 </tfoot>
               </Table>

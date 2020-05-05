@@ -94,6 +94,12 @@
       "productsId": 2,
       "quantity": 1,
       "id": 1
+    },
+    {
+      "userId": 6,
+      "productId": 3,
+      "quantity": 1,
+      "id": 2
     }
   ],
   "transaction": [
