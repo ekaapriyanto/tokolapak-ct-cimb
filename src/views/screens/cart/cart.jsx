@@ -17,7 +17,15 @@ class Cart extends React.Component {
     cartData: [],
     checkOutData: [],
     transactionCondtion: false,
-    totalPrice: 0
+    totalPrice: 0,
+    pengiriman: 0,
+  };
+
+  inputHandler = (e, field) => {
+    let { value } = e.target;
+    this.setState({
+      [field]: value
+    });
   };
 
   getCartData = () => {
@@ -50,14 +58,14 @@ class Cart extends React.Component {
         <tr>
           <td>{idx + 1}</td>
           <td>{productName}</td>
-          <td>{price}</td>
+          <td>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(price)}</td>
           <td>{quantity}</td>
           <td>
             {" "}
             <img
               src={image}
               alt=""
-              style={{ width: "100px", height: "200px", objectFit: "contain" }}
+              style={{ width: "50px", height: "100px", objectFit: "contain" }}
             />{" "}
           </td>
           <td>
@@ -94,9 +102,9 @@ class Cart extends React.Component {
         <tr key={`cartData-${id}`}>
           <td>{idx + 1}</td>
           <td>{productName}</td>
-          <td>{price}</td>
+          <td>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(price)}</td>
           <td>{quantity}</td>
-          <td><img src={image} width="80" /></td>
+          <td><img src={image} width="30"/></td>
           <td>{quantity * price}</td>
         </tr>
       )
@@ -104,6 +112,15 @@ class Cart extends React.Component {
   }
 
   transactionConfirm = () => {
+    const { totalPrice, cartData } = this.state
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    var today = new Date()
+    var date = today.getDate() + '/' + monthNames[(today.getMonth())] + '/' + today.getFullYear()
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+    var dateTime = date + ' ' + time
+
     Axios.get(`${API_URL}/carts`, {
       params: {
         userId: this.props.user.id,
@@ -117,6 +134,8 @@ class Cart extends React.Component {
         Axios.delete(`${API_URL}/carts/${val.id}`)
         .then((res) => {
           console.log(res)
+          swal("Success!", "Transaksi sukses")
+          this.setState({ cartData: ''})
         })
         .catch((err) => {
           console.log(err)
@@ -124,14 +143,33 @@ class Cart extends React.Component {
       })
       Axios.post(`${API_URL}/transaction`, {
         userId: this.props.user.id,
-        totalPrice: this.state.totalPrice,
+        username: this.props.user.username,
+        totalPrice: totalPrice,
         status: "pending",
-        items: this.state.checkOutData,
+        tanggalBelanja: dateTime,
+        tanggalSelesai: ""
       })
       .then((res) => {
         console.log(res.data)
-        swal("Success!", "Silahkan ke menu payment untuk membayar")
-        this.setState({ cartData: ''})
+        cartData.map(val => {
+          Axios.post(`${API_URL}/transaction_details`, {
+            productId: val.product.id,
+            transactionsId: res.data.id,
+            price: val.product.price,
+            totalPrice: val.product.price * val.quantity,
+            quantity: val.quantity
+          })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        })
+
+      })
+      .catch((err) => {
+        console.log(err)
       })
     })
     .catch((err) => {
@@ -145,9 +183,11 @@ class Cart extends React.Component {
 
   render() {
     return (
-      <div className="container py-4">
+      <div className="container">
+        <h2>Cart</h2>
         {this.state.cartData.length > 0 ? (
-          <Table>
+          <>
+          <Table height="10px">
             <thead>
               <tr>
                 <th>No.</th>
@@ -159,46 +199,54 @@ class Cart extends React.Component {
               </tr>
             </thead>
             <tbody>{this.renderCartData()}</tbody>
-            <div className="container">
-              <ButtonUI onClick={this.cartTransaction}>Transaction</ButtonUI>
-              {
-                (!this.state.transactionCondtion) ? (null)
-                : (
-                  <>
-                  <div className="container py-4">
-                  <h3>Total belanjaan</h3>
-                  <Table className="mt-10">
-                        <thead>
-                          <tr>
-                            <th>No.</th>
-                            <th>Product Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Image</th>
-                            <th>Total Price</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {this.renderTransaction()}
-                        </tbody>
-                        <tfoot>
-                          <tr>
-                            <td colSpan="5">total belanjaan anda</td>
-                            <td colSpan="1">{this.state.totalPrice}</td>
-                          </tr>
-                        </tfoot>
-                  </Table>
-                  </div>
-                  <div className="d-flex flex-column">
-                  <center>
-                    <ButtonUI onClick={this.transactionConfirm} type="outlined">Confirm</ButtonUI>
-                  </center>
-                </div>
-                </>
-                )
-              }
-            </div>
           </Table>
+          <ButtonUI onClick={this.cartTransaction}>Transaction</ButtonUI>
+          {
+            (!this.state.transactionCondtion) ? (null)
+            : (
+              <>
+              <h3>Total belanjaan</h3>
+              <Table className="mt-10">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Image</th>
+                    <th>Total Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.renderTransaction()}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td><select value={this.state.pengiriman}
+                          className="custom-text-input h-100 pl-3"
+                          onChange={(e) => this.inputHandler(e, "pengiriman")}>
+                            <option value={0}>Economi</option>
+                            <option value={100000}>Instant</option>
+                            <option value={50000}>Same Day</option>
+                            <option value={20000}>Express</option>
+                        </select>
+                      </td>
+                  </tr>
+                  <tr>
+                    <td colSpan="5">total belanjaan anda</td>
+                    <td className="text-center" colSpan="1">{this.state.totalPrice + this.state.pengiriman}</td>
+                  </tr>
+                </tfoot>
+              </Table>
+              <div className="d-flex flex-column">
+                <center>
+                  <ButtonUI onClick={this.transactionConfirm} type="outlined">Confirm</ButtonUI>
+                </center>
+              </div>
+              </>
+            )            
+          }
+          </>
         ) : (
           <Alert>
             Your cart is empty! <Link to="/">Go shopping</Link>

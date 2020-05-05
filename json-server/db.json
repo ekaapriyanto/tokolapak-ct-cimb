@@ -94,45 +94,199 @@
       "productsId": 2,
       "quantity": 1,
       "id": 1
-    },
-    {
-      "userId": 4,
-      "productId": 3,
-      "quantity": 1,
-      "id": 2
     }
   ],
   "transaction": [
     {
       "userId": 4,
-      "totalPrice": 20000000,
-      "status": "pending",
-      "item": [
-        {
-          "productName": "IPhone 11",
-          "price": 20000000,
-          "category": "Phone",
-          "image": "https://ibox.co.id/media/catalog/product/cache/3/image/9df78eab33525d08d6e5fb8d27136e95/i/p/iphone-11-pro-max-midnight-green_3.png",
-          "desc": "HP terbaik",
-          "id": 4
-        }
-      ],
+      "totalPrice": 15000000,
+      "status": "done",
+      "tanggalBelanja": "4/May/2020 20:15:55",
+      "tanggalSelesai": "5/May/2020 11:28:49",
       "id": 1
     },
     {
+      "userId": 6,
+      "totalPrice": 30000000,
+      "status": "done",
+      "tanggalBelanja": "5/May/2020 10:38:22",
+      "tanggalSelesai": "5/May/2020 11:28:55",
+      "id": 2
+    },
+    {
+      "userId": 6,
+      "totalPrice": 15200000,
+      "status": "done",
+      "tanggalBelanja": "5/May/2020 10:40:50",
+      "tanggalSelesai": "5/May/2020 11:28:57",
+      "id": 3
+    },
+    {
       "userId": 4,
-      "totalPrice": 10000000,
+      "totalPrice": 35000000,
+      "status": "success",
+      "tanggalBelanja": "5/May/2020 11:38:47",
+      "tanggalSelesai": "5/May/2020 15:23:50",
+      "id": 4
+    },
+    {
+      "userId": 6,
+      "totalPrice": 15000000,
+      "status": "success",
+      "tanggalBelanja": "5/May/2020 12:48:11",
+      "tanggalSelesai": "5/May/2020 15:23:57",
+      "id": 5
+    },
+    {
+      "userId": 6,
+      "totalPrice": 20000000,
+      "status": "success",
+      "tanggalBelanja": "5/May/2020 14:41:59",
+      "tanggalSelesai": "5/May/2020 14:42:27",
+      "id": 6
+    },
+    {
+      "userId": 6,
+      "totalPrice": 200000,
+      "status": "success",
+      "tanggalBelanja": "5/May/2020 14:44:55",
+      "tanggalSelesai": "5/May/2020 16:43:24",
+      "id": 7
+    },
+    {
+      "userId": 6,
+      "totalPrice": 20000000,
+      "status": "success",
+      "tanggalBelanja": "5/May/2020 15:39:18",
+      "tanggalSelesai": "5/May/2020 16:45:23",
+      "id": 8
+    },
+    {
+      "userId": 6,
+      "user": "eka",
+      "totalPrice": 15000000,
       "status": "pending",
-      "items": [
-        {
-          "productName": "iPhone 7 Plus",
-          "price": 5000000,
-          "category": "Phone",
-          "image": "https://ibox.co.id/media/wysiwyg/PromoOnline/web-banner---iphone-7-plus-rev.png",
-          "desc": "HP Terbaikk loh",
-          "id": 1
-        }
-      ],
+      "tanggalBelanja": "5/May/2020 16:37:1",
+      "tanggalSelesai": "",
+      "id": 9
+    },
+    {
+      "userId": 6,
+      "username": "eka",
+      "totalPrice": 15000000,
+      "status": "pending",
+      "tanggalBelanja": "5/May/2020 16:38:39",
+      "tanggalSelesai": "",
+      "id": 10
+    }
+  ],
+  "transaction_details": [
+    {
+      "productId": 2,
+      "transactionsId": 1,
+      "price": 15000000,
+      "totalPrice": 15000000,
+      "quantity": 1,
+      "id": 3
+    },
+    {
+      "productId": 2,
+      "transactionsId": 2,
+      "price": 15000000,
+      "totalPrice": 30000000,
+      "quantity": 2,
+      "id": 4
+    },
+    {
+      "productId": 2,
+      "transactionsId": 3,
+      "price": 15000000,
+      "totalPrice": 15000000,
+      "quantity": 1,
+      "id": 5
+    },
+    {
+      "productId": 4,
+      "transactionsId": 3,
+      "price": "200000",
+      "totalPrice": 200000,
+      "quantity": 1,
+      "id": 6
+    },
+    {
+      "productId": 3,
+      "transactionsId": 4,
+      "price": 20000000,
+      "totalPrice": 20000000,
+      "quantity": 1,
+      "id": 7
+    },
+    {
+      "productId": 2,
+      "transactionsId": 4,
+      "price": 15000000,
+      "totalPrice": 15000000,
+      "quantity": 1,
+      "id": 8
+    },
+    {
+      "productId": 2,
+      "transactionsId": 5,
+      "price": 15000000,
+      "totalPrice": 15000000,
+      "quantity": 1,
+      "id": 9
+    },
+    {
+      "productId": 3,
+      "transactionsId": 6,
+      "price": 20000000,
+      "totalPrice": null,
+      "quantity": 1,
+      "id": 10
+    },
+    {
+      "productId": 4,
+      "transactionsId": 7,
+      "price": "200000",
+      "totalPrice": null,
+      "quantity": 1,
+      "id": 11
+    },
+    {
+      "productId": 3,
+      "transactionsId": 8,
+      "price": 20000000,
+      "totalPrice": null,
+      "quantity": 1,
+      "id": 12
+    },
+    {
+      "productId": 2,
+      "transactionsId": 9,
+      "price": 15000000,
+      "totalPrice": null,
+      "quantity": 1,
+      "id": 13
+    },
+    {
+      "productId": 2,
+      "transactionsId": 10,
+      "price": 15000000,
+      "totalPrice": null,
+      "quantity": 1,
+      "id": 14
+    }
+  ],
+  "wishlist": [
+    {
+      "userId": 2,
+      "productId": 3,
+      "id": 1
+    },
+    {
+      "userId": 6,
+      "productId": 5,
       "id": 2
     }
   ]

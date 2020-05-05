@@ -24,6 +24,7 @@ class ProductCard extends React.Component<ProductCardProps> {
 
     return (
       <div className={`product-card d-inline-block ${this.props.className}`}>
+        <Link to={`/product/${id}`}>
         <img
           src={image}
           alt={this.props.data.productName}
@@ -39,6 +40,7 @@ class ProductCard extends React.Component<ProductCardProps> {
           </h5>
           <p className="small">Jakarta Selatan</p>
         </div>
+        </Link>
         <div className="d-flex flex-row align-items-center justify-content-between mt-2">
           <div>
             <div className="d-flex flex-row align-items-center justify-content-between">

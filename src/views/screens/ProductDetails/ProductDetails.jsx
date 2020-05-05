@@ -36,7 +36,7 @@ class ProdactDetails extends React.Component {
           
         })
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
           swal("Add to cart", "Your item has been added to your cart", "success");
         })
         .catch((err) => {
@@ -59,6 +59,37 @@ class ProdactDetails extends React.Component {
       console.log(err);
     });
   };
+
+  addToWishlistHandler = () => {
+    console.log(this.props.user.id, this.state.productData.id)
+    Axios.get(`${API_URL}/wishlist`, {
+      params: {
+        userId: this.props.user.id,
+        productId: this.state.productData.id,
+      }
+    })
+    .then((res) => {
+      console.log(res.data)
+      if(res.data.length == 0){
+        Axios.post(`${API_URL}/wishlist`, {
+          userId: this.props.user.id,
+          productId: this.state.productData.id,
+        })
+        .then((res) => {
+          console.log(res.data)
+          swal("Add to wishlist")
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      } else {
+        swal("Sudah ada di daftar wishlist")
+      }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
 
   componentDidMount() {
     Axios.get(`${API_URL}/products/${this.props.match.params.productId}`)
@@ -92,7 +123,7 @@ class ProdactDetails extends React.Component {
                         <p className="mt-4">{desc}</p>
                         <div className="d-flex flex-row mt-4">
                             <ButtonUI onClick={this.addToCartHandler}>Add To Cart</ButtonUI>
-                            <ButtonUI className="ml-4" type="outlined">Add To Wishlist</ButtonUI>
+                            <ButtonUI onClick={this.addToWishlistHandler} className="ml-4" type="outlined">Add To Wishlist</ButtonUI>
                         </div>
                     </div>
                 </div>

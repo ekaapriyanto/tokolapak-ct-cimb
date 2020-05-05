@@ -122,16 +122,39 @@ class Navbar extends React.Component {
                   <p className="small ml-3 mr-4">{this.props.user.username}</p>
                 </DropdownToggle>
                 <DropdownMenu className="mt-2">
-                  <DropdownItem>
-                    <Link
-                      style={{ color: "inherit", textDecoration: "none" }}
-                      to="/admin/dashboard"
-                    >
-                      Dashboard
-                    </Link>
-                  </DropdownItem>
-                  <DropdownItem>Members</DropdownItem>
-                  <DropdownItem>Payments</DropdownItem>
+                {
+                  this.props.user.role === "admin" ? (
+                    <>
+                    <DropdownItem>
+                      <Link
+                        style={{ color: "inherit", textDecoration: "none" }}
+                        to="/admin/dashboard"
+                      >
+                        Dashboard
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                    <Link style={{ color: "inherit", tex: "none"}} to="/admin/member">
+                        member
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link style={{ color: "inherit", tex: "none"}} to="/admin/payment">
+                        Payment
+                      </Link>
+                    </DropdownItem>
+                    </>
+                  ) : (
+                    <>
+                    <DropdownItem>
+                      <Link to="/histori" style={{ color: "inherit", tex: "none"}}>Histori</Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <Link to="/wishlist" style={{ color: "inherit", tex: "none"}}>Wishlist</Link>
+                    </DropdownItem>
+                    </>
+                  )
+                }
                 </DropdownMenu>
               </Dropdown>
               {
@@ -164,7 +187,7 @@ class Navbar extends React.Component {
                     className="ml-3"
                     type="textual"
                   >
-                    Logout
+                    <Link to="/auth" style={{textDecoration: "none"}}>Logout</Link>
                   </ButtonUI>
                   </>
                 )
