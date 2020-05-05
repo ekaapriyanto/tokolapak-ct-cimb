@@ -144,7 +144,7 @@ class Cart extends React.Component {
       Axios.post(`${API_URL}/transaction`, {
         userId: this.props.user.id,
         username: this.props.user.username,
-        totalPrice: totalPrice,
+        totalPrice: totalPrice + this.state.pengiriman,
         status: "pending",
         tanggalBelanja: dateTime,
         tanggalSelesai: ""
@@ -166,7 +166,6 @@ class Cart extends React.Component {
             console.log(err)
           })
         })
-
       })
       .catch((err) => {
         console.log(err)
@@ -234,7 +233,7 @@ class Cart extends React.Component {
                   </tr>
                   <tr>
                     <td colSpan="5">total belanjaan anda</td>
-                    <td className="text-center" colSpan="1">{this.state.totalPrice + this.state.pengiriman}</td>
+                    <td className="text-center" colSpan="1">{this.state.totalPrice + +this.state.pengiriman}</td>
                   </tr>
                 </tfoot>
               </Table>

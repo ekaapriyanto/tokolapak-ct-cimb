@@ -10,12 +10,15 @@ class Payment extends React.Component {
     state = {
         paymentTransaction: [],
         paymentTransactionSuccess: [],
+        detailCondition: false,
+        kondisi: true,
         activePage: "proggres"
     }
     getTransactionPayment = () => {
         Axios.get(`${API_URL}/transaction`, {
             params: {
                 status: "pending",
+                _embed: "transaction_details",
             }
         })
         .then((res) => {
@@ -29,6 +32,7 @@ class Payment extends React.Component {
         Axios.get(`${API_URL}/transaction`, {
             params: {
                 status: "success",
+                _embed: "transaction_details"
             }
         })
         .then((res) => {
@@ -70,13 +74,14 @@ class Payment extends React.Component {
         const { activePage } = this.state;
         if( activePage == "proggres") {
             return this.state.paymentTransaction.map((val, idx) => {
-                const {id, userId, username, totalPrice, tanggalBelanja, tanggalSelesai, status } = val
+                const {id, userId, username, totalPrice, tanggalBelanja, tanggalSelesai, status, transaction_details } = val
                 return (
+                    <>
                     <tr>
                         <td>{idx + 1}</td>
                         <td>{userId}</td>
                         <td>{username}</td>
-                        <td>{totalPrice}</td>
+                        <td>{new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR" }).format(totalPrice)}</td>
                         <td>{tanggalBelanja}</td>
                         <td>{tanggalSelesai}</td>
                         <td>{status}</td>
@@ -84,12 +89,42 @@ class Payment extends React.Component {
                             <ButtonUI type="contained" onClick={() => this.comfirmBtnHandler(id)}>Confirm!</ButtonUI>
                         </td>
                     </tr>
+                    { !this.state.detailCondition ? (
+                        null
+                    ) : (
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>Product Id</th>
+                                    <th>Price</th>
+                                    <th>total Price</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {transaction_details.map((val, idx) => {
+                                    return (
+                                        <tr>
+                                            <td>{idx + 1}</td>
+                                            <td>{val.productId}</td>
+                                            <td>{val.price}</td>
+                                            <td>{val.totalPrice}</td>
+                                            <td>{val.quantity}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
+                    )}
+                    </>
                 )
             })
         } else {
             return this.state.paymentTransactionSuccess.map((val, idx) => {
-                const {id, userId, username, totalPrice, tanggalBelanja, tanggalSelesai, status } = val;
+                const {id, userId, username, totalPrice, tanggalBelanja, tanggalSelesai, status, transaction_details } = val;
                 return (
+                    <>
                     <tr>
                         <td>{idx + 1}</td>
                         <td>{userId}</td>
@@ -99,6 +134,35 @@ class Payment extends React.Component {
                         <td>{tanggalSelesai}</td>
                         <td>{status}</td>
                     </tr>
+                     { !this.state.detailCondition ? (
+                        null
+                    ) : (
+                        <Table>
+                            <thead>
+                                <tr>
+                                    <th>NO</th>
+                                    <th>Product Id</th>
+                                    <th>Price</th>
+                                    <th>total Price</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {transaction_details.map((val, idx) => {
+                                    return (
+                                        <tr>
+                                            <td>{idx + 1}</td>
+                                            <td>{val.productId}</td>
+                                            <td>{val.price}</td>
+                                            <td>{val.totalPrice}</td>
+                                            <td>{val.quantity}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
+                    )}
+                    </>
                 )
             })
         }
@@ -124,6 +188,7 @@ class Payment extends React.Component {
                     type="outlined"
                     onClick={() => this.setState({activePage: "success"})}
                 >Success</ButtonUI>
+                <ButtonUI className="ml-3" type="outlined" onClick={() => this.setState({detailCondition:true})}>Details</ButtonUI>
                 </div>
                 
                 <Table>
